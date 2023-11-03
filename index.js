@@ -9,62 +9,29 @@ const { createStore } = require("redux");
 
 
 // CONSTANTS
-const INCREMENT = 'INCREMENT';
-const INCREMENT_BY_VALUE = 'INCREMENT_BY_VALUE';
-const DECREMENT = 'DECREMENT';
-const RESET = 'RESET';
+const ADD_USER = 'ADD_USER';
 
 // initial stare
 const initialState = {
-    count: 0
+    users: ['musa'],
+    count: 1,
 }
 
 // all actions
-const incrementCounterAction = () => {
+const addUser = (user) => {
     return {
-        type: INCREMENT,
+        type: ADD_USER,
+        payload: user
     };
 }
-const decrementCounterAction = () => {
-    return {
-        type: DECREMENT,
-    };
-}
-const resetCounterAction = () => {
-    return {
-        type: RESET,
-    };
-}
-const incrementCounterByValue = (value) => {
-    return {
-        type: INCREMENT_BY_VALUE,
-        payload: value
-    };
-}
-
 
 // creating reducer
-const counterReducer = (state=initialState, action) => {
+const userReducer = (state=initialState, action) => {
     switch (action.type) {
-        case INCREMENT:
+        case ADD_USER:
             return {
-                ...state,
+                users: [...state.users, action.payload],
                 count: state.count + 1
-            };
-        case DECREMENT:
-            return {
-                ...state,
-                count: state.count - 1
-            };
-        case RESET:
-            return {
-                ...state,
-                count: 0
-            };
-        case INCREMENT_BY_VALUE:
-            return {
-                ...state,
-                count: state.count + action.payload
             };
         default:
             state;
@@ -73,17 +40,11 @@ const counterReducer = (state=initialState, action) => {
 
 
 //store
-const store = createStore(counterReducer);
+const store = createStore(userReducer);
 
 store.subscribe(() => {
     console.log(store.getState());
 })
 
-// store.dispatch(incrementCounterAction());
-// store.dispatch(incrementCounterAction());
-// store.dispatch(incrementCounterAction());
-// store.dispatch(decrementCounterAction());
-// store.dispatch(resetCounterAction());
-// store.dispatch(incrementCounterAction());
-store.dispatch(incrementCounterByValue(5));
-store.dispatch(incrementCounterByValue(10));
+store.dispatch(addUser("rana"));
+store.dispatch(addUser("rafi"));
